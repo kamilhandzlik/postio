@@ -1,3 +1,28 @@
-{% block title %}
-<h1>Welcome to postio</h1> <h2> your package management site!</h2>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome to postio{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+    <h1>Welcome to postio</h1>
+    <h2>Your package management site!</h2>
+    <h1>List of Packages</h1>
+    <ul>
+        {% for package in packages %}
+            <li>
+                <strong>ID:</strong> {{ package.package_id }}<br>
+                <strong>Name:</strong> {{ package.name }}<br>
+                <strong>Weight:</strong> {{ package.weight }}<br>
+                <strong>Dimensions:</strong> {{ package.width }} x {{ package.length }} x {{ package.height }}<br>
+                <strong>Price:</strong> {{ package.price }}<br>
+                <strong>Status:</strong> {{ package.status }}<br>
+                <strong>Paid:</strong> {{ package.paid }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endblock %}
+</body>
+</html>
