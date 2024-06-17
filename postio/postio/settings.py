@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_registration',
     'main.apps.MainConfig',
     'register.apps.RegisterConfig'
 
@@ -126,3 +127,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings for email authentication
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@example.com'  # file when needed
+EMAIL_HOST_PASSWORD = 'your-email-password' # file when needed
+
+# setting for sender and admins email addresses
+DEFAULT_FROM_EMAIL = 'webmaster@example.com' # file when needed
