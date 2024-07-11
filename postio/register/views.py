@@ -6,12 +6,12 @@ from django.urls import reverse_lazy
 
 class RegistrationView(CreateView):
     form_class = RegistrationForm
-    template_name = 'register.register.html'
+    template_name = 'register/register.html'
     success_url = reverse_lazy('homepage')
 
 
 class CustomLoginView(LoginView):
-    template_name = 'register.login.html'
+    template_name = 'register/login.html'
     success_url = reverse_lazy('homepage')
 
 
