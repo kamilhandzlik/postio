@@ -1,28 +1,63 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl" dir="ltr">
 <head>
     <meta charset="UTF-8">
+    <title>Postio | Strona główna</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    {# Boxicons CDN link #}
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Welcome to postio{% endblock %}</title>
 </head>
 <body>
-    {% block content %}
-    <h1>Welcome to postio</h1>
-    <h2>Your package management site!</h2>
-    <h1>List of Packages</h1>
-    <ul>
-        {% for package in packages %}
-            <li>
-                <strong>ID:</strong> {{ package.package_id }}<br>
-                <strong>Name:</strong> {{ package.name }}<br>
-                <strong>Weight:</strong> {{ package.weight }}<br>
-                <strong>Dimensions:</strong> {{ package.width }} x {{ package.length }} x {{ package.height }}<br>
-                <strong>Price:</strong> {{ package.price }}<br>
-                <strong>Status:</strong> {{ package.status }}<br>
-                <strong>Paid:</strong> {{ package.paid }}<br>
-            </li>
-        {% endfor %}
+<div class="sidebar">
+    <div class="logo-details">
+        <i class='bx bx-package'></i>
+        <span class="logo_name">PostIo</span>
+    </div>
+    <ul class="nav-links">
+        <li>
+            <a href="/onas-uzupełnij/">
+                <i class="bx bx-grid-alt"></i>
+                <span class="link_name">O nas</span>
+            </a>
+        </li>
+        <li>
+            <a href="/oferta-uzupełnij/">
+                <i class="bx bx-grid-alt"></i>
+                <span class="link_name">Nasza oferta</span>
+            </a>
+        </li>
+        <li>
+            <a href="/regulamin-uzupełnij/">
+                <i class="bx bx-grid-alt"></i>
+                <span class="link_name">Regulamin</span>
+            </a>
+        </li>
+        <li>
+            <a href="/kontakt-uzupełnij/">
+                <i class="bx bx-grid-alt"></i>
+                <span class="link_name">Kontakt</span>
+            </a>
+        </li>
+        <li>
+            <a href="/login/">
+                <i class="bx bx-grid-alt"></i>
+                <span class="link_name">Zaloguj się</span>
+            </a>
+        </li>
+        <li>
+            <a href="/register/">
+                <i class="bx bx-grid-alt"></i>
+                <span class="link_name">Zarejestruj się</span>
+            </a>
+        </li>
+        <li>
+            <div class="icon-link">
+                <a href=""
+            </div>
+        </li>
     </ul>
-    {% endblock %}
+</div>
 </body>
 </html>
