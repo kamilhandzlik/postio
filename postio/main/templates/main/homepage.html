@@ -12,8 +12,10 @@
 <body>
 <div class="sidebar">
     <div class="logo-details">
-        <i class='bx bxs-package'></i>
-        <span class="logo_name">Post-Io</span>
+        <a href="{% url 'homepage' %}">
+            <i class='bx bxs-package'></i>
+            <span class="logo_name">Post-Io</span>
+        </a>
     </div>
     <ul class="nav-links">
         <li>
@@ -23,13 +25,19 @@
             </a>
         </li>
         <li>
-            <div>
+            <div class="iocn-link">
                 <a href="/oferta-uzupełnij/">
                     <i class='bx bxs-offer'></i>
                     <span class="link_name">Nasza oferta</span>
                 </a>
-                <i class='bx bx-chevron-down'></i>
+                <i class='bx bx-chevron-down arrow'></i>
             </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="Do uzupełnienia">Nasze Usługi</a></li>
+                <li><a class="link_name" href="Do uzupełnienia">Cennik</a></li>
+                <li><a class="link_name" href="Do uzupełnienia">Współpraca</a></li>
+                <li><a class="link_name" href="Do uzupełnienia">Rekrutacja</a></li>
+            </ul>
         </li>
         <li>
             <a href="/regulamin-uzupełnij/">
@@ -38,12 +46,12 @@
             </a>
         </li>
         <li>
-            <div>
+            <div class="iocn-link">
                 <a href="/kontakt-uzupełnij/">
                     <i class='bx bxs-contact'></i>
                     <span class="link_name">Kontakt</span>
                 </a>
-                <i class='bx bx-chevron-down'></i>
+                <i class='bx bx-chevron-down arrow'></i>
             </div>
         </li>
         <li>
@@ -60,5 +68,6 @@
         </li>
     </ul>
 </div>
+
 </body>
 </html>
