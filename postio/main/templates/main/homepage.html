@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<div class="sidebar">
+<div class="sidebar close">
     <div class="logo-details">
         <a href="{% url 'homepage' %}">
             <i class='bx bxs-package'></i>
@@ -33,6 +33,7 @@
                 <i class='bx bx-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu">
+                <li><a class="link_name" href="/oferta-uzupełnij/"></a></li>
                 <li><a class="link_name" href="Do uzupełnienia">Nasze Usługi</a></li>
                 <li><a class="link_name" href="Do uzupełnienia">Cennik</a></li>
                 <li><a class="link_name" href="Do uzupełnienia">Współpraca</a></li>
@@ -66,8 +67,32 @@
                 <span class="link_name">Zarejestruj się</span>
             </a>
         </li>
+        <li>
+            <div class="profile-details">
+                <div class="profile-content">
+                    <img src="TODO: uzupełnij" alt="profileImage">
+                </div>
+                <div class="profile-name">Username</div>
+            </div>
+        </li>
     </ul>
 </div>
-
+<script>
+    let arrow = document.querySelectorAll(".arrow");
+    for (var i = 0; i < arrow.length; i++) {
+        arrow[i].addEventListener('click', (e)=>{
+            let arrowParent =
+                e.target.parentElement.parentElement;
+        })
+    }
+    {
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", ()=>{
+            sidebar.classList.toggle("close");
+        })
+    }
+</script>
 </body>
 </html>
