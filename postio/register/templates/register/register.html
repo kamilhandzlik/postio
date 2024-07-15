@@ -1,4 +1,4 @@
-{#{% extends "main/homepage.html" %}#}
+{% extends "main/homepage.html" %}
 
 {% block title %}
     Stwórz konto
@@ -16,10 +16,16 @@
             {{ form.username.errors }}
         </div>
         <div class="form-group">
-            <label for="id_emai">Adres email</label>
+            <label for="id_email">Adres email</label>
             <br>
             {{ form.email }}
             {{ form.email.errors }}
+        </div>
+        <div class="form-group">
+            <label for="id_age">Wiek</label>
+            <br>
+            {{ form.age }}
+            {{ form.age.errors }}
         </div>
         <div class="form-group">
             <label for="id_password1">Hasło</label>
@@ -58,8 +64,8 @@
 
         document.getElementById('togglePassword2').addEventListener('click', function () {
             var passwordField2 = document.getElementById('id_password2');
-            var type1 = passwordField2.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField2.setAttribute('type', type1);
+            var type2 = passwordField2.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField2.setAttribute('type', type2);
             this.textContent = type2 === 'password' ? 'Pokaż' : 'Ukryj';
         });
     </script>

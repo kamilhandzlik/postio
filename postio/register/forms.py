@@ -26,6 +26,15 @@ class RegistrationForm(UserCreationForm):
         }
     )
 
+    zge = forms.IntegerField(
+        label=_('Wiek'),
+        error_messages={
+            'required': _('To pole jest wymagane.'),
+            'invalid': _('Wprowadź poprawny wiek.'),
+            'min_value': _('Musisz mieć co najmniej 13 lat.')
+        }
+    )
+
     password1 = forms.CharField(
         label=_('Hasło'),
         widget=forms.PasswordInput,
@@ -57,6 +66,12 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+    def clean_age(self):
+        age = self.cleaned_data.get('age')
+        if age < 13:
+            raise forms.ValidationError(_("Musisz mieć co najmniej 13 lat."))
+        return age
 
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
