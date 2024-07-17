@@ -16,6 +16,18 @@
             {{ form.username.errors }}
         </div>
         <div class="form-group">
+            <label for="id_first_name">Imię</label>
+            <br>
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="form-group">
+            <label for="id_last_name">Nazwisko</label>
+            <br>
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+        <div class="form-group">
             <label for="id_email">Adres email</label>
             <br>
             {{ form.email }}

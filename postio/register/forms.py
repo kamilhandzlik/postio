@@ -17,6 +17,21 @@ class RegistrationForm(UserCreationForm):
             'unique': _('Użytkownik o takiej nazwie już istnieje.')
         }
     )
+    first_name = forms.CharField(
+        max_length=100,
+        label=_('Imię'),
+        error_messages={
+            'required': _('To pole jest wymagane.'),
+        }
+    )
+
+    last_name = forms.CharField(
+        max_length=100,
+        label=_('Nazwisko'),
+        error_messages={
+            'required': _('To pole jest wymagane.'),
+        }
+    )
 
     email = forms.EmailField(
         label=_('Email'),
@@ -26,7 +41,7 @@ class RegistrationForm(UserCreationForm):
         }
     )
 
-    zge = forms.IntegerField(
+    age = forms.IntegerField(
         label=_('Wiek'),
         error_messages={
             'required': _('To pole jest wymagane.'),
@@ -65,7 +80,7 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'first_name', 'last_name', 'email', 'age', 'password1', 'password2']
 
     def clean_age(self):
         age = self.cleaned_data.get('age')
