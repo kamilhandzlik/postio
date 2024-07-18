@@ -6,5 +6,11 @@ from .models import UserPackage
 def homepage(request):
     """View of home page."""
     packages = UserPackage.objects.all()
-    return render(request, 'main/homepage.html', {'packages': packages})
+    return render(request, 'main/homepage.html', )
+
+def about_us(request):
+    return render(request, 'main/about_us.html')
+
+def regulamin(request):
+    return render(request, 'main/regulamin.html')
 

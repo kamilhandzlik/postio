@@ -13,14 +13,14 @@ class RegistrationView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        user_email = form.cleaned_data.get('email')
-        send_mail(
-            "Rejestracja w serwisei Post-Io.",
-            'Dziękujemy za rejestrację w naszym serwisie.',
-            settings.EMAIL_HOST_USER,
-            [user_email],
-            fail_silently=False,
-        )
+        # user_email = form.cleaned_data.get('email')
+        # send_mail(
+        #     "Rejestracja w serwisei Post-Io.",
+        #     'Dziękujemy za rejestrację w naszym serwisie.',
+        #     settings.EMAIL_HOST_USER,
+        #     [user_email],
+        #     fail_silently=False,
+        # )
         return response
 
 
