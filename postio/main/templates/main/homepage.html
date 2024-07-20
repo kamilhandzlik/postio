@@ -60,11 +60,13 @@
     <div class="user-info">Cześć {{ user.username }}!</div>
         <a href="{% url 'about' %}">O NAS</a>
         <a href="{% url 'regulamin' %}">REGULAMIN</a>
+        <a href="{% url 'create_package' %}">NOWA PACZKA</a>
 
     {% if user.is_authenticated %}
         <a href="{% url 'about' %}">O NAS</a>
         <a href="#">OFERTA</a>
         <a href="{% url 'regulamin' %}">REGULAMIN</a>
+        <a href="{% url 'create_package' %}">NOWA PACZKA</a>
 
         <div class="user-info">Cześć {{ user.username }}!</div>
         <a>

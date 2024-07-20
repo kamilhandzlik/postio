@@ -1,0 +1,17 @@
+{% extends "main/homepage.html" %}
+
+
+{% block title %}Płatność{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-2">Zapłać za paczkę.</h1>
+        <hr class="mt-0 mb-4">
+        <p>Paczka: {{ package.name }}</p>
+        <p>Cena: {{ package.price }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Zapłać</button>
+        </form>
+    </div>
+{% endblock %}

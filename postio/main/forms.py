@@ -6,6 +6,13 @@ class UserPackageForm(forms.ModelForm):
     class Meta:
         model = UserPackage
         fields = ['name', 'weight', 'width', 'lenght', 'height']
+        labels = {
+            'name': 'Nazwa',
+            'weight': 'Waga (max 15 kg)',
+            'width': 'Szerokość (max 30 cm)',
+            'lenght': 'Długość (max 45 cm)',
+            'height': 'Wysokość (max 35 cm)'
+        }
 
     def clean(self):
         cleaned_data = super().clean()

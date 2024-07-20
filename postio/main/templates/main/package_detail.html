@@ -1,0 +1,17 @@
+{% extends "main/homepage.html" %}
+
+
+{% block title %}Detale paczki{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1 class="my"></h1>
+        <hr class="mt-0 mb-4">
+        <p>ID paczki: {{ package.package_id }}</p>
+        <p>Nazwa: {{ package.name }}</p>
+        <p>Waga: {{ package.weight }}</p>
+        <p>Wymiary: {{ package.width }} x {{ package.height }} x {{ package.lenght }}</p>
+        <p>Cena: {{ package.price }}</p>
+        <p>Status: {{ package.status }}</p>
+        <p>Opłacona: {{ package.paid }}</p>
+    </div>
+{% endblock %}
