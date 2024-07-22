@@ -1,17 +1,22 @@
 {% extends "main/homepage.html" %}
 
-
-{% block title %}Detale paczki{% endblock %}
 {% block content %}
     <div class="container">
-        <h1 class="my"></h1>
+        <h1 class="mt-2">Szczegóły Paczki</h1>
         <hr class="mt-0 mb-4">
-        <p>ID paczki: {{ package.package_id }}</p>
-        <p>Nazwa: {{ package.name }}</p>
-        <p>Waga: {{ package.weight }}</p>
-        <p>Wymiary: {{ package.width }} x {{ package.height }} x {{ package.lenght }}</p>
-        <p>Cena: {{ package.price }}</p>
-        <p>Status: {{ package.status }}</p>
-        <p>Opłacona: {{ package.paid }}</p>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Paczka ID: {{ package.package_id }}</h5>
+                <p class="card-text"><strong>Nazwa:</strong> {{ package.name }}</p>
+                <p class="card-text"><strong>Waga:</strong> {{ package.weight }} kg</p>
+                <p class="card-text"><strong>Szerokość:</strong> {{ package.width }} cm</p>
+                <p class="card-text"><strong>Wysokość:</strong> {{ package.height }} cm</p>
+                <p class="card-text"><strong>Długość:</strong> {{ package.lenght }} cm</p>
+                <p class="card-text"><strong>Cena:</strong> {{ package.price }} zł</p>
+                <p class="card-text"><strong>Status:</strong> {{ package.status }}</p>
+                <p class="card-text"><strong>Opłacona:</strong> {{ package.paid|yesno:"Tak,Nie" }}</p>
+                <img src="/{{ qr_code_url }}" alt="QR Code">
+            </div>
+        </div>
     </div>
 {% endblock %}

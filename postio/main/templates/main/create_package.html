@@ -46,9 +46,9 @@
                 <label for="id_lenght">{{ form.lenght.label }}</label>
                 <br>
                 {{ form.lenght }}
-                {% if form.width.errors %}
+                {% if form.lenght.errors %}
                     <div class="alert alert-danger">
-                        {% for error in form.width.errors %}
+                        {% for error in form.lenght.errors %}
                             <div>{{ error }}</div>
                         {% endfor %}
                     </div>
