@@ -25,7 +25,7 @@ def create_package(request):
         form = UserPackageForm(request.POST)
         if form.is_valid():
             package = form.save(commit=False)
-            package.price = calculate_price(package.weight, package.width, package.height, package.length)
+            package.price = calculate_price(package.weight, package.width, package.height, package.lenght)
             package.paid = False
             package.status = 'ready_to_ship'
             package.save()
@@ -52,8 +52,8 @@ def package_detail(request, package_id):
 
 
 def calculate_price(weight, wigth, height, length):
-    #Calculating package based upon weight, price and dimensions
+    # Calculating package based upon weight, price and dimensions
     base_price = 10
     weight_factor = weight * 0.5
     size_factor = (wigth * height * length) * 0.01
-    return base_price + weight_factor +size_factor
+    return base_price + weight_factor + size_factor

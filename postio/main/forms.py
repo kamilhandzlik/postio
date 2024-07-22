@@ -13,6 +13,13 @@ class UserPackageForm(forms.ModelForm):
             'lenght': 'Długość (max 45 cm)',
             'height': 'Wysokość (max 35 cm)'
         }
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control'}),
+            'weight': forms.NumberInput(attrs={'class':'form-control'}),
+            'width': forms.NumberInput(attrs={'class': 'form-control'}),
+            'lenght': forms.NumberInput(attrs={'class': 'form-control'}),
+            'height': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
 
     def clean(self):
         cleaned_data = super().clean()
