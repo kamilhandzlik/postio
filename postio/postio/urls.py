@@ -16,16 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from register.views import RegistrationView, CustomLoginView, CustomLogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("main.urls")),
-    path('login/', CustomLoginView.as_view(), name='login'),
-    path('logout/', CustomLogoutView.as_view(), name='logout'),
-    path('register/', RegistrationView.as_view(), name='register'),
+    path('', include("register.urls"))
 ]
 
 # Obsługa statycznych plików w trybie debugowania

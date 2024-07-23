@@ -24,11 +24,10 @@ class RegistrationView(CreateView):
         return response
 
 
-
 class CustomLoginView(LoginView):
     template_name = 'register/login.html'
     success_url = reverse_lazy('homepage')
 
 
 class CustomLogoutView(LogoutView):
-    pass
+    next_page = reverse_lazy('homepage')
