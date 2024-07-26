@@ -3,7 +3,7 @@ from django.urls import path, include
 from .views import RegistrationView, CustomLoginView, CustomLogoutView
 from django.conf.urls.static import static
 from django.conf import settings
-
+#test commit
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RegistrationView.as_view(), name='register'),
