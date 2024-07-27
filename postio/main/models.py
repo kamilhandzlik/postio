@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 # model for packages that individual users want to send
@@ -12,6 +13,7 @@ class UserPackage(models.Model):
     paid = models.BooleanField()            # check if package delivery was paid for
     package_id = models.AutoField(primary_key=True)  # adds id to package
     status = models.CharField(max_length=50)    # status of package (ready to ship, dispatched, awaiting currier, awaiting pickup, in warehouse, in transit, delivered)
+    assigned_courrier = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='assigned_packages')
 
     def update_status(self, new_status):
         self.status = new_status

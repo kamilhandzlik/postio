@@ -11,7 +11,8 @@ class UserPackageForm(forms.ModelForm):
             'weight': 'Waga (max 15 kg)',
             'width': 'Szerokość (max 30 cm)',
             'lenght': 'Długość (max 45 cm)',
-            'height': 'Wysokość (max 35 cm)'
+            'height': 'Wysokość (max 35 cm)',
+            'assigned_courier': 'Przypisany kurier',
         }
         widgets = {
             'name': forms.TextInput(attrs={'class':'form-control'}),
@@ -19,6 +20,7 @@ class UserPackageForm(forms.ModelForm):
             'width': forms.NumberInput(attrs={'class': 'form-control'}),
             'lenght': forms.NumberInput(attrs={'class': 'form-control'}),
             'height': forms.NumberInput(attrs={'class': 'form-control'}),
+            'assigned_courier': forms.Select(attrs={'class': 'form-control'})
         }
 
     def clean(self):

@@ -15,6 +15,7 @@
                 <p class="card-text"><strong>Cena:</strong> {{ package.price }} zł</p>
                 <p class="card-text"><strong>Status:</strong> {{ package.status }}</p>
                 <p class="card-text"><strong>Opłacona:</strong> {{ package.paid|yesno:"Tak,Nie" }}</p>
+                <p class="card-text"><strong>Kurier:</strong>{{ package.assigned_courier }}</p>
                 <img src="/{{ qr_code_url }}" alt="QR Code">
             </div>
         </div>

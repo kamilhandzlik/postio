@@ -5,6 +5,10 @@ from .models import UserPackage
 from .forms import UserPackageForm
 import qrcode
 import os
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.models import User
+from django.http import HttpResponseForbidden
 
 
 # Create your views here.
@@ -89,3 +93,32 @@ class PackageDetailView(DetailView):
         os.makedirs(os.path.dirname(qr_code_path), exist_ok=True)
         img.save(qr_code_path)
         return qr_code_path
+
+
+class EditPackageView(View):
+    template_name = 'main/edit_package.html'
+
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        package_id = self.kwargs['package_id']
+        package = get_object_or_404(UserPackage, pk=package_id)
+        form = UserPackageForm(instance=package)
+        if request.user.groups.filter(name='Dostawca').exists() or request.user.is_superuser:
+            context = {'form': form, 'package': package}
+            return render(request, self.template_name, context)
+        else:
+            return HttpResponseForbidden("Nie masz pozwolenia żeby edytować tą paczkę.")
+
+    @method_decorator(login_required)
+    def post(self, requset, *args, **kwargs):
+        package_id = self.kwargs['package_id']
+        package = get_object_or_404(UserPackage, pk=package_id)
+        form = UserPackageForm(requset.POST, instance=package)
+        if requset.user.groups.filter(name='Dostawca').exist() or requset.user.is_superuser:
+            if form.is_valid():
+                form.save()
+                return redirect('package_detail', package_id=package.package_id)
+            else:
+                return render(requset, self.template_name, {'form': form, 'package': package})
+        else:
+            return HttpResponseForbidden("Nie masz pozwolenia żeby edytować tą paczkę.")
