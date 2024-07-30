@@ -58,7 +58,8 @@
 <div class="sidenav">
     </a>
     {% if user.is_authenticated %}
-        <div class="user-info">Cześć {{ user.username }}!</div>
+{#        <div class="user-info">Cześć {{ user.username }}!</div>#}
+        <a href="{% url 'profile' %}">{{ user.username }}</a>
     {% endif %}
 
     <a href="{% url 'about' %}">O NAS</a>
@@ -72,7 +73,7 @@
             {% csrf_token %}
         </form>
 
-        <div id="logout-div" style="cursor: pointer;">Wyloguj się</div>
+        <div id="logout-div" style="cursor: pointer;"><a>Wyloguj się</a></div>
 
     {% else %}
         <div class="user-info">NIE JESTEŚ ZALOGOWANY</div>

@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, DetailView, View
@@ -8,7 +9,8 @@ import os
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
+from django.contrib.auth import update_session_auth_hash
 
 
 # Create your views here.
@@ -122,3 +124,24 @@ class EditPackageView(View):
                 return render(requset, self.template_name, {'form': form, 'package': package})
         else:
             return HttpResponseForbidden("Nie masz pozwolenia żeby edytować tą paczkę.")
+
+
+class ProfileView(View):
+    template_name = 'main/profile.html'
+
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        password_form = PasswordChangeForm(request.user)
+        return render(request, self.template_name, {'password_form': password_form})
+
+
+class PasswordChangeAjaxView(View):
+    @method_decorator(login_required)
+    def post(self, request, *args, **kwargs):
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return JsonResponse({'status': 'ok'}, status=200)
+        else:
+            return JsonResponse({'status': 'error', 'errors': 'form.errors'}, status=400)

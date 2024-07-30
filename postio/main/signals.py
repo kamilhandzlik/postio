@@ -4,7 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.dispatch import receiver
 from .models import UserPackage
 
-class SupplierGroupHandler:
+
+class SignalHandlers:
     @staticmethod
     @receiver(post_migrate)
     def create_supplier_group(sender, **kwargs):

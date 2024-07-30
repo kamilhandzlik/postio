@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import HomePageView, AboutUsView, RegulaminView, CreatePackageView, PayPackageView, PackageDetailView, \
-    EditPackageView
+    EditPackageView, ProfileView, PasswordChangeAjaxView
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='homepage'),
@@ -9,5 +9,7 @@ urlpatterns = [
     path('create_package/', CreatePackageView.as_view(), name='create_package'),
     path('pay_package/<int:package_id>/', PayPackageView.as_view(), name='pay_package'),
     path('package_detail/<int:package_id>/', PackageDetailView.as_view(), name='package_detail'),
-    path('edit_package/<int:package_id>/', EditPackageView.as_view(), name='edit_package')
+    path('edit_package/<int:package_id>/', EditPackageView.as_view(), name='edit_package'),
+    path('profile/', ProfileView.as_view(), name='profile'),
+    path('password_change_ajax/', PasswordChangeAjaxView.as_view, name='password_change_ajax'),
 ]
