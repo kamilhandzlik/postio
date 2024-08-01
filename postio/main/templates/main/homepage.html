@@ -56,26 +56,24 @@
 </head>
 <body>
 <div class="sidenav">
-    </a>
     {% if user.is_authenticated %}
-{#        <div class="user-info">Cześć {{ user.username }}!</div>#}
         <a href="{% url 'profile' %}">{{ user.username }}</a>
+        {% if user_has_permission %}
+            <a href="{% url 'edit_package' package_id=1 %}">EDYTUJ PACZKĘ</a>
+        {% endif %}
     {% endif %}
 
     <a href="{% url 'about' %}">O NAS</a>
     <a href="{% url 'regulamin' %}">REGULAMIN</a>
 
-
     {% if user.is_authenticated %}
         <a href="{% url 'create_package' %}">NOWA PACZKA</a>
-
 
         <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
             {% csrf_token %}
         </form>
 
         <div id="logout-div" style="cursor: pointer;"><a>Wyloguj się</a></div>
-
     {% else %}
         <div class="user-info">NIE JESTEŚ ZALOGOWANY</div>
         <a href="{% url 'login' %}">LOGOWANIE</a>
@@ -83,7 +81,6 @@
     {% endif %}
 </div>
 <a href="/admin">PANEL ADMINA</a>
-</div>
 <div id="content" class="main">
     <div class="row justify-content-center">
         <div class="col-8">
@@ -93,7 +90,7 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/js/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script>
     var dropdown = document.getElementsByClassName("dropdown-btn");

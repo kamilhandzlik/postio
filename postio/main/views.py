@@ -18,6 +18,11 @@ from django.contrib.auth import update_session_auth_hash
 
 class HomePageView(TemplateView):
     template_name = 'main/homepage.html'
+    def is_authorized(self, request, *args, **kwargs):
+        context = {
+            'user_has_permission': request.user.groups.filter(name='Dostawca').exists() or request.user.is_superuser,
+        }
+        return render(request, 'homepage.html', context)
 
 
 class AboutUsView(TemplateView):
@@ -105,23 +110,26 @@ class EditPackageView(View):
         package_id = self.kwargs['package_id']
         package = get_object_or_404(UserPackage, pk=package_id)
         form = UserPackageForm(instance=package)
-        if request.user.groups.filter(name='Dostawca').exists() or request.user.is_superuser:
-            context = {'form': form, 'package': package}
+        user_has_permission = request.user.groups.filter(name='Dostawca').exists() or request.user.is_superuser
+        if user_has_permission:
+            context = {'form': form, 'package': package, 'user_has_permission': user_has_permission}
             return render(request, self.template_name, context)
         else:
             return HttpResponseForbidden("Nie masz pozwolenia żeby edytować tą paczkę.")
 
     @method_decorator(login_required)
-    def post(self, requset, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         package_id = self.kwargs['package_id']
         package = get_object_or_404(UserPackage, pk=package_id)
-        form = UserPackageForm(requset.POST, instance=package)
-        if requset.user.groups.filter(name='Dostawca').exist() or requset.user.is_superuser:
+        form = UserPackageForm(request.POST, instance=package)
+        user_has_permission = request.user.groups.filter(name='Dostawca').exists() or request.user.is_superuser
+        if user_has_permission:
             if form.is_valid():
                 form.save()
                 return redirect('package_detail', package_id=package.package_id)
             else:
-                return render(requset, self.template_name, {'form': form, 'package': package})
+                return render(request, self.template_name,
+                              {'form': form, 'package': package, 'user_has_permission': user_has_permission})
         else:
             return HttpResponseForbidden("Nie masz pozwolenia żeby edytować tą paczkę.")
 
