@@ -10,7 +10,11 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden, JsonResponse
+from django.views import View
+from django.shortcuts import render, redirect
 from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from .forms import UserForm, ProfileForm, PasswordChangeCustomForm
 
 
 # Create your views here.
@@ -18,6 +22,7 @@ from django.contrib.auth import update_session_auth_hash
 
 class HomePageView(TemplateView):
     template_name = 'main/homepage.html'
+
     def is_authorized(self, request, *args, **kwargs):
         context = {
             'user_has_permission': request.user.groups.filter(name='Dostawca').exists() or request.user.is_superuser,
@@ -137,10 +142,39 @@ class EditPackageView(View):
 class ProfileView(View):
     template_name = 'main/profile.html'
 
-    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
-        password_form = PasswordChangeForm(request.user)
-        return render(request, self.template_name, {'password_form': password_form})
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+        password_form = PasswordChangeCustomForm(user=request.user)
+
+        return render(request, self.template_name, {
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'password_form': password_form
+        })
+
+    def post(self, request, *args, **kwargs):
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        password_form = PasswordChangeCustomForm(user=request.user, data=request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profil został zaktualizowany pomyślnie.')
+            return redirect('profile')
+
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Hasło zostało zmienione pomyślnie.')
+            return redirect('profile')
+
+        return render(request, self.template_name, {
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'password_form': password_form
+        })
 
 
 class PasswordChangeAjaxView(View):

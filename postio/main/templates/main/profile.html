@@ -1,13 +1,21 @@
+<!-- main/templates/profile.html -->
+
 {% extends "main/homepage.html" %}
 
 {% block content %}
 <h2>Profil użytkownika</h2>
-<p>Imię: {{ user.first_name }}</p>
-<p>Nazwisko: {{ user.last_name }}</p>
-<p>Email: {{ user.email }}</p>
+<form id="profileUpdateForm" method="post">
+    {% csrf_token %}
+    <p>Nazwa użytkownika: {{ user.username }}</p>
+    <p>Imię: <input type="text" name="first_name" value="{{ user.first_name }}"></p>
+    <p>Nazwisko: <input type="text" name="last_name" value="{{ user.last_name }}"></p>
+    <p>Email: <input type="email" name="email" value="{{ user.email }}"></p>
+    <p>Miejsce zamieszkania: <input type="text" name="address" value="{{ user.profile.address }}"></p>
+    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+</form>
 
 <!-- Przycisk zmiany hasła -->
-<button id="change-password-btn" class="btn btn-primary">Zmień hasło</button>
+<button id="change-password-btn" class="btn btn-primary mt-3">Zmień hasło</button>
 
 <!-- Modal do zmiany hasła -->
 <div id="changePasswordModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
@@ -22,8 +30,7 @@
       <div class="modal-body">
         <form id="passwordChangeForm" method="post">
           {% csrf_token %}
-          <input type="hidden" name="username" value="{{ user.username }}">
-          {{ form.as_p }}
+          {{ password_form.as_p }}
           <button type="submit" class="btn btn-primary">Zmień hasło</button>
         </form>
       </div>
@@ -43,11 +50,26 @@ $(document).ready(function() {
         event.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '{% url "change_password" %}',
+            url: '{% url "profile" %}',
             data: $(this).serialize(),
             success: function(response) {
                 $('#changePasswordModal').modal('hide');
                 alert('Hasło zostało zmienione pomyślnie.');
+            },
+            error: function(response) {
+                alert('Wystąpił błąd. Proszę spróbować ponownie.');
+            }
+        });
+    });
+
+    $('#profileUpdateForm').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "profile" %}',
+            data: $(this).serialize(),
+            success: function(response) {
+                alert('Profil został zaktualizowany pomyślnie.');
             },
             error: function(response) {
                 alert('Wystąpił błąd. Proszę spróbować ponownie.');

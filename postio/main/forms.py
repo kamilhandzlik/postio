@@ -1,6 +1,9 @@
 from django import forms
 from .models import UserPackage
-
+from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from register.models import Profile
 
 class UserPackageForm(forms.ModelForm):
     class Meta:
@@ -40,3 +43,21 @@ class UserPackageForm(forms.ModelForm):
             self.add_error('lenght', 'Długość paczki nie może przekroczyć 45 cm.')
 
         return cleaned_data
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['address']
+
+class PasswordChangeCustomForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs['class'] = 'form-control'
+        self.fields['new_password1'].widget.attrs['class'] = 'form-control'
+        self.fields['new_password2'].widget.attrs['class'] = 'form-control'
