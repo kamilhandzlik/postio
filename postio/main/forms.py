@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from register.models import Profile
 
+
 class UserPackageForm(forms.ModelForm):
     class Meta:
         model = UserPackage
@@ -18,8 +19,8 @@ class UserPackageForm(forms.ModelForm):
             'assigned_courier': 'Przypisany kurier',
         }
         widgets = {
-            'name': forms.TextInput(attrs={'class':'form-control'}),
-            'weight': forms.NumberInput(attrs={'class':'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'weight': forms.NumberInput(attrs={'class': 'form-control'}),
             'width': forms.NumberInput(attrs={'class': 'form-control'}),
             'lenght': forms.NumberInput(attrs={'class': 'form-control'}),
             'height': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -50,10 +51,11 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email']
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['address']
+
+# class ProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = Profile
+#         fields = ['address']
 
 class PasswordChangeCustomForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):

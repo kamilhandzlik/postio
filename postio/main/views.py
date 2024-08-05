@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, DetailView, View
@@ -14,7 +15,7 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
-from .forms import UserForm, ProfileForm, PasswordChangeCustomForm
+from .forms import UserForm, PasswordChangeCustomForm
 
 
 # Create your views here.
@@ -139,40 +140,38 @@ class EditPackageView(View):
             return HttpResponseForbidden("Nie masz pozwolenia żeby edytować tą paczkę.")
 
 
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin, View):
     template_name = 'main/profile.html'
 
     def get(self, request, *args, **kwargs):
         user_form = UserForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.profile)
         password_form = PasswordChangeCustomForm(user=request.user)
 
         return render(request, self.template_name, {
             'user_form': user_form,
-            'profile_form': profile_form,
             'password_form': password_form
         })
 
     def post(self, request, *args, **kwargs):
         user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
         password_form = PasswordChangeCustomForm(user=request.user, data=request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Profil został zaktualizowany pomyślnie.')
-            return redirect('profile')
-
-        if password_form.is_valid():
-            user = password_form.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, 'Hasło zostało zmienione pomyślnie.')
-            return redirect('profile')
+        if 'username' in request.POST:
+            if user_form.is_valid():
+                user_form.save()
+                messages.success(request, 'Profil został zaktualizowany pomyślnie.')
+                return redirect('profile')
+        if 'old_password' in request.POST:
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Hasło zostało zmienione pomyślnie.')
+                return redirect('profile')
+            else:
+                messages.error(request, "Wystąpił błąd. Proszę spróbuj ponownie.")
 
         return render(request, self.template_name, {
             'user_form': user_form,
-            'profile_form': profile_form,
             'password_form': password_form
         })
 
@@ -185,5 +184,5 @@ class PasswordChangeAjaxView(View):
             user = form.save()
             update_session_auth_hash(request, user)
             return JsonResponse({'status': 'ok'}, status=200)
-        else:
+            #         else:
             return JsonResponse({'status': 'error', 'errors': 'form.errors'}, status=400)
