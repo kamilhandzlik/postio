@@ -1,60 +1,22 @@
-<!-- main/templates/profile.html -->
-
 {% extends "main/homepage.html" %}
 
 {% block content %}
 <h2>Profil użytkownika</h2>
-<form id="profileUpdateForm" method="post">
+<form method="post">
     {% csrf_token %}
-    <p>Nazwa użytkownika: <br> <input type="text" name="username" value="{{ user.username }}"></p>
-    <p>Imię: <br> <input type="text" name="first_name" value="{{ user.first_name }}"></p>
-    <p>Nazwisko: <br> <input type="text" name="last_name" value="{{ user.last_name }}"></p>
-    <p>Email: <br> <input type="email" name="email" value="{{ user.email }}"></p>
+    <p>Nazwa użytkownika:<br> <input type="text" name="username" value="{{ user.username }}"></p>
+    <p>Imię:<br> <input type="text" name="first_name" value="{{ user.first_name }}"></p>
+    <p>Nazwisko:<br> <input type="text" name="last_name" value="{{ user.last_name }}"></p>
+    <p>Email:<br> <input type="email" name="email" value="{{ user.email }}"></p>
     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
 </form>
-
-<!-- Przycisk zmiany hasła -->
-<button id="change-password-btn" class="btn btn-primary mt-3">Zmień hasło</button>
-
-<!-- Modal do zmiany hasła -->
-<div id="changePasswordModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="changePasswordModalLabel">Zmień hasło</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="passwordChangeForm" method="post">
-          {% csrf_token %}
-          {{ password_form.as_p }}
-          <button type="button" class="btn btn-primary" id="confirm-password-change">Zmień hasło</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal potwierdzenia zmiany hasła -->
-<div id="confirmChangePasswordModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmChangePasswordModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmChangePasswordModalLabel">Potwierdź zmianę hasła</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Czy na pewno chcesz zmienić hasło?</p>
-        <button type="button" class="btn btn-danger" id="cancel-password-change">Nie</button>
-        <button type="button" class="btn btn-success" id="submit-password-change">Tak</button>
-      </div>
-    </div>
-  </div>
-</div>
+<br>
+<h3>Zmień hasło</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ password_form.as_p }}
+    <button type="submit" class="btn btn-primary">Zmień hasło</button>
+</form>
 
 {% endblock %}
 
@@ -62,36 +24,7 @@
 <script>
 $(document).ready(function() {
     $('#change-password-btn').click(function() {
-        $('#changePasswordModal').modal('show');
-    });
-
-    $('#confirm-password-change').click(function() {
-        $('#changePasswordModal').modal('hide');
-        $('#confirmChangePasswordModal').modal('show');
-    });
-
-    $('#cancel-password-change').click(function() {
-        $('#confirmChangePasswordModal').modal('hide');
-    });
-
-    $('#submit-password-change').click(function() {
-        $('#confirmChangePasswordModal').modal('hide');
-        $('#passwordChangeForm').submit();
-    });
-
-    $('#profileUpdateForm').submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "profile" %}',
-            data: $(this).serialize(),
-            success: function(response) {
-                alert('Profil został zaktualizowany pomyślnie.');
-            },
-            error: function(response) {
-                alert('Wystąpił błąd. Proszę spróbować ponownie.');
-            }
-        });
+        $('#changePasswordForm').toggle();
     });
 });
 </script>

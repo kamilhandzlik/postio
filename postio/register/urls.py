@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import RegistrationView, CustomLoginView, CustomLogoutView
+from .views import RegistrationView, CustomLoginView, CustomLogoutView, PasswordChangeAjaxView, ProfileView
 from django.conf.urls.static import static
 from django.conf import settings
 #test commit
@@ -11,6 +11,8 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('register/', RegistrationView.as_view(), name='register'),
+    path('profile/', ProfileView.as_view(), name='profile'),
+    path('password_change_ajax/', PasswordChangeAjaxView.as_view, name='password_change_ajax')
 ]
 
 if settings.DEBUG:
