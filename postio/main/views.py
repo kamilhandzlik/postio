@@ -161,6 +161,7 @@ class ProfileView(LoginRequiredMixin, View):
                 user_form.save()
                 messages.success(request, 'Profil został zaktualizowany pomyślnie.')
                 return redirect('profile')
+
         if 'old_password' in request.POST:
             if password_form.is_valid():
                 user = password_form.save()
