@@ -12,38 +12,60 @@
 </form>
 <br>
 <h3>Zmień hasło</h3>
-<form method="post" id="passwordChangeForm">
+<form method="post" id="form-group">
     {% csrf_token %}
     <div class="form-group">
-        <label for="id_old_password">Stare hasło</label>
-        <input type="password" name="old_password" class="form-control" id="id_old_password">
-        <button type="button" class="btn btn-secondary show-password" data-target="id_old_password">Pokaż</button>
+        <label>Stare Hasło</label>
+        <br>
+        {{ password_form.old_password }}
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="toggleOldPassword">Pokaż</button>
+        </div>
+        {{ password_form.old_password.errors }}
     </div>
     <div class="form-group">
-        <label for="id_new_password1">Nowe hasło</label>
-        <input type="password" name="new_password1" class="form-control" id="id_new_password1">
-        <button type="button" class="btn btn-secondary show-password" data-target="id_new_password1">Pokaż</button>
+        <label>Nowe hasło</label>
+        <br>
+        {{ password_form.new_password1 }}
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="toggleNewPassword1">Pokaż</button>
+        </div>
+        {{ password_form.new_password1.help_text|safe }}
+        {{ password_form.new_password1.errors }}
     </div>
     <div class="form-group">
-        <label for="id_new_password2">Potwierdź nowe hasło</label>
-        <input type="password" name="new_password2" class="form-control" id="id_new_password2">
-        <button type="button" class="btn btn-secondary show-password" data-target="id_new_password2">Pokaż</button>
+        <label>Powtórz hasło</label>
+        <br>
+        {{ password_form.new_password2 }}
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="toggleNewPassword2">Pokaż</button>
+        </div>
+        {{ password_form.new_password2.help_text|safe }}
+        {{ password_form.new_password2.errors }}
     </div>
-    <button type="submit" class="btn btn-primary">Zmień hasło</button>
 </form>
 
 {% endblock %}
 
 {% block script %}
 <script>
-(document).ready(function() {
-    ('.show-password').click(function() {
-        var target = $(this).data('target');
-        var input = $('#' + target);
-        var type = input.attr('type') === 'password' ? 'text' : 'password';
-        input.attr('type', type);
-        $(this).text(type === 'password' ? 'Pokaż' : 'Ukryj');
+    document.getElementById('toggleOldPassword').addEventListener('click', function () {
+        var passwordField1 = document.getElementById('id_password1');
+        var type1 = passwordField1.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField1.setAttribute('type', type1);
+        this.textContent = type1 === 'password' ? 'Pokaż' : 'Ukryj';
     });
-});
+    document.getElementById('toggleNewPassword1').addEventListener('click', function () {
+        var passwordField1 = document.getElementById('id_password1');
+        var type1 = passwordField1.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField1.setAttribute('type', type1);
+        this.textContent = type1 === 'password' ? 'Pokaż' : 'Ukryj';
+    });
+    document.getElementById('toggleNewPassword2').addEventListener('click', function () {
+        var passwordField1 = document.getElementById('id_password1');
+        var type1 = passwordField1.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField1.setAttribute('type', type1);
+        this.textContent = type1 === 'password' ? 'Pokaż' : 'Ukryj';
+    });
 </script>
 {% endblock %}

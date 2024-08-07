@@ -118,11 +118,6 @@ class UserForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email']
 
 
-# class ProfileForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         fields = ['address']
-
 class PasswordChangeCustomForm(PasswordChangeForm):
     old_password = forms.CharField(
         label=_('Stare hasło'),
@@ -136,10 +131,10 @@ class PasswordChangeCustomForm(PasswordChangeForm):
         label=_('Nowe hasło'),
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
-        help_text=_("Twoje hasło nie może być podobne do twoich innych danych osobowych. "
-                    "Twoje hasło musi zawierać co najmniej 8 znaków. "
-                    "Twoje hasło nie może być powszechnie używane. "
-                    "Twoje hasło nie może składać się wyłącznie z cyfr."),
+        help_text=_("Twoje hasło nie może być podobne do twoich innych danych osobowych.\n "
+                    "Twoje hasło musi zawierać co najmniej 8 znaków.\n "
+                    "Twoje hasło nie może być powszechnie używane. \n"
+                    "Twoje hasło nie może składać się wyłącznie z cyfr.\n"),
         error_messages={
             'required': _('To pole jest wymagane.'),
         }
@@ -151,6 +146,7 @@ class PasswordChangeCustomForm(PasswordChangeForm):
         help_text=_("Wprowadź to samo hasło, co powyżej, w celu weryfikacji."),
         error_messages={
             'required': _('To pole jest wymagane.'),
+            'password_mismatch': _("Hasła nie pasują do siebie."),
         }
     )
 
