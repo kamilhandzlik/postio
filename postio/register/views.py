@@ -48,7 +48,7 @@ class CustomLogoutView(LogoutView):
 
 
 class ProfileView(LoginRequiredMixin, View):
-    template_name = 'main/profile.html'
+    template_name = 'register/profile.html'
 
     def get(self, request, *args, **kwargs):
         user_form = UserForm(instance=request.user)

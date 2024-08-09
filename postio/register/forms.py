@@ -121,16 +121,14 @@ class UserForm(forms.ModelForm):
 class PasswordChangeCustomForm(PasswordChangeForm):
     old_password = forms.CharField(
         label=_('Stare hasło'),
-        strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         error_messages={
             'required': _('To pole jest wymagane.'),
         }
     )
     new_password1 = forms.CharField(
         label=_('Nowe hasło'),
-        strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text=_("Twoje hasło nie może być podobne do twoich innych danych osobowych.\n "
                     "Twoje hasło musi zawierać co najmniej 8 znaków.\n "
                     "Twoje hasło nie może być powszechnie używane. \n"
@@ -141,8 +139,7 @@ class PasswordChangeCustomForm(PasswordChangeForm):
     )
     new_password2 = forms.CharField(
         label=_('Potwierdź nowe hasło'),
-        strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text=_("Wprowadź to samo hasło, co powyżej, w celu weryfikacji."),
         error_messages={
             'required': _('To pole jest wymagane.'),
@@ -157,15 +154,31 @@ class PasswordChangeCustomForm(PasswordChangeForm):
             'password_incorrect': _('Stare hasło jest niepoprawne.')
         })
 
+
+    def clean_new_password1(self):
+        new_password1 = self.cleaned_data.get('new_password1')
+        if new_password1:
+            try:
+                validate_password(new_password1, self.user)
+            except ValidationError:
+                error_messages = {
+                    'password_too_short': self.fields['password1'].error_messages['password_too_short'],
+                    'password_too_common': self.fields['password1'].error_messages['password_common'],
+                    'password_entirely_numeric': self.fields['password1'].error_messages['password_entirely_numeric'],
+                }
+        return new_password1
+
+
     def clean_new_password2(self):
-        password1 = self.cleaned_data.get('new_password1')
-        password2 = self.cleaned_data.get('new_password2')
-        if password1 and password2 and password1 != password2:
+        new_password1 = self.cleaned_data.get('new_password1')
+        new_password2 = self.cleaned_data.get('new_password2')
+        if new_password1 and new_password2 and new_password1 != new_password2:
             raise forms.ValidationError(
-                self.error_messages['password_mismatch'],
-                code='password_mismatch',
+                self.fields['new_password2'].error_messages['password_mismatch'],
+                code='password_mismatch'
             )
-        return password2
+        return new_password2
+
 
     def clean_old_password(self):
         old_password = self.cleaned_data.get('old_password')

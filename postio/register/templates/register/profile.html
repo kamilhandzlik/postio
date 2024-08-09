@@ -1,0 +1,82 @@
+{% extends "main/homepage.html" %}
+
+{% block title %}
+    Konto Użytkownika
+{% endblock %}
+
+{% block content %}
+<h2>Profil użytkownika <br> {{ user.username }}</h2>
+<form method="post">
+    {% csrf_token %}
+    <p>Nazwa użytkownika:<br> <input type="text" name="username" value="{{ user.username }}"></p>
+    <p>Imię:<br> <input type="text" name="first_name" value="{{ user.first_name }}"></p>
+    <p>Nazwisko:<br> <input type="text" name="last_name" value="{{ user.last_name }}"></p>
+    <p>Email:<br> <input type="email" name="email" value="{{ user.email }}"></p>
+    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+</form>
+<br>
+<h3>Zmień hasło</h3>
+<form method="post" id="passwordChangeForm">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Stare Hasło</label>
+        <br>
+        <div class="input-group">
+            {{ password_form.old_password }}
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="toggleOldPassword">Pokaż</button>
+            </div>
+        </div>
+        {{ password_form.old_password.errors }}
+    </div>
+    <div class="form-group">
+        <label>Nowe hasło</label>
+        <br>
+        <div class="input-group">
+            <input type="password" name="new_password1" required id="id_new_password1" autocomplete="new-password">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="toggleNewPassword1">Pokaż</button>
+            </div>
+        </div>
+        {{ password_form.new_password1.help_text|safe }}
+        {{ password_form.new_password1.errors }}
+    </div>
+    <div class="form-group">
+        <label>Powtórz hasło</label>
+        <br>
+        <div class="input-group">
+            <input type="password" name="new_password2" required id="id_new_password2" autocomplete="new-password">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="toggleNewPassword2">Pokaż</button>
+            </div>
+        </div>
+        {{ password_form.new_password2.help_text|safe }}
+        {{ password_form.new_password2.errors }}
+    </div>
+    <button type="submit" class="btn btn-primary">Zmień hasło</button>
+</form>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    document.getElementById('toggleOldPassword').addEventListener('click', function () {
+        var passwordField = document.getElementById('{{ password_form.old_password.id_for_label }}');
+        var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Pokaż' : 'Ukryj';
+    });
+    document.getElementById('toggleNewPassword1').addEventListener('click', function () {
+        var passwordField = document.getElementById('{{ password_form.new_password1.id_for_label }}');
+        var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Pokaż' : 'Ukryj';
+    });
+    document.getElementById('toggleNewPassword2').addEventListener('click', function () {
+        var passwordField = document.getElementById('{{ password_form.new_password2.id_for_label }}');
+        var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Pokaż' : 'Ukryj';
+    });
+</script>
+{% endblock %}
