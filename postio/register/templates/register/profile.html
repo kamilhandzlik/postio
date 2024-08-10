@@ -1,22 +1,75 @@
 {% extends "main/homepage.html" %}
 
 {% block title %}
-    Konto Użytkownika
+Konto Użytkownika
 {% endblock %}
+
+<!Dostype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil użytkownika</title>
+    <style>
+        .password-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 10px;
+        }
+
+        .password-container button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor:pointer;
+        background-color: #f0f0f0;
+        border: none;
+        padding: 5px 10px;
+        }
+
+        .password-container input[type="password"],
+        .password-container input[type="text"] {
+            padding-right: 60px;
+        }
+    </style>
+</head>
 
 {% block content %}
 <h2>Profil użytkownika <br> {{ user.username }}</h2>
-<form method="post">
+<form method="post" class="form-group">
     {% csrf_token %}
-    <p>Nazwa użytkownika:<br> <input type="text" name="username" value="{{ user.username }}"></p>
-    <p>Imię:<br> <input type="text" name="first_name" value="{{ user.first_name }}"></p>
-    <p>Nazwisko:<br> <input type="text" name="last_name" value="{{ user.last_name }}"></p>
-    <p>Email:<br> <input type="email" name="email" value="{{ user.email }}"></p>
+    <div class="form-group">
+        <label>Użytkownik</label>
+        <br>
+        {{ user_form.username }}
+        <br>
+        {{ user_form.username.help_text|safe }}
+        {{ user_form.username.errors }}
+    </div>
+    <div class="form-group">
+        <label>Imię</label>
+        <br>
+        {{ user_form.first_name }}
+        {{ user_form.first_name.errors }}
+    </div>
+    <div class="form-group">
+        <label>Nazwisko</label>
+        <br>
+        {{ user_form.last_name }}
+        {{ user_form.last_name.errors }}
+    </div>
+    <div class="form-group">
+        <label>Adres email</label>
+        <br>
+        {{ user_form.email }}
+        {{ user_form.email.errors }}
+    </div>
     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
 </form>
 <br>
 <h3>Zmień hasło</h3>
-<form method="post" id="passwordChangeForm">
+<form method="post" id="passwordChangeForm" class="form-group">
     {% csrf_token %}
     <div class="form-group">
         <label>Stare Hasło</label>
@@ -60,23 +113,15 @@
 
 {% block script %}
 <script>
-    document.getElementById('toggleOldPassword').addEventListener('click', function () {
-        var passwordField = document.getElementById('{{ password_form.old_password.id_for_label }}');
-        var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordField.setAttribute('type', type);
-        this.textContent = type === 'password' ? 'Pokaż' : 'Ukryj';
-    });
-    document.getElementById('toggleNewPassword1').addEventListener('click', function () {
-        var passwordField = document.getElementById('{{ password_form.new_password1.id_for_label }}');
-        var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordField.setAttribute('type', type);
-        this.textContent = type === 'password' ? 'Pokaż' : 'Ukryj';
-    });
-    document.getElementById('toggleNewPassword2').addEventListener('click', function () {
-        var passwordField = document.getElementById('{{ password_form.new_password2.id_for_label }}');
-        var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordField.setAttribute('type', type);
-        this.textContent = type === 'password' ? 'Pokaż' : 'Ukryj';
-    });
+    function togglePasswordVisibility(passwordFieldId, toggleButton) {
+        var passwordInput = document.getElementById(passwordFieldId);
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleButton.textContent = 'Ukryj';
+        } else {
+            passwordInput.type = 'password';
+            toggleButton.textContent = 'Pokaż';
+        }
+    }
 </script>
 {% endblock %}

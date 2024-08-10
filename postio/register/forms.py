@@ -93,12 +93,13 @@ class RegistrationForm(UserCreationForm):
         if password1:
             try:
                 validate_password(password1, self.instance)
-            except ValidationError:
+            except ValidationError as e:
                 error_messages = {
                     'password_too_short': self.fields['password1'].error_messages['password_too_short'],
-                    'password_too_common': self.fields['password1'].error_messages['password_common'],
+                    'password_too_common': self.fields['password1'].error_messages['password_too_common'],
                     'password_entirely_numeric': self.fields['password1'].error_messages['password_entirely_numeric'],
                 }
+                raise forms.ValidationError([error_messages[error.code] for error in e.error_list])
         return password1
 
     def clean_password2(self):
@@ -135,6 +136,9 @@ class PasswordChangeCustomForm(PasswordChangeForm):
                     "Twoje hasło nie może składać się wyłącznie z cyfr.\n"),
         error_messages={
             'required': _('To pole jest wymagane.'),
+            'password_too_short': _("Hasło jest zbyt krótkie. Powinno zawierać co najmniej 8 znaków."),
+            'password_too_common': _("Hasło jest zbyt powszechne."),
+            'password_entirely_numeric': _("Hasło nie może być całkowicie numeryczne."),
         }
     )
     new_password2 = forms.CharField(
@@ -160,12 +164,13 @@ class PasswordChangeCustomForm(PasswordChangeForm):
         if new_password1:
             try:
                 validate_password(new_password1, self.user)
-            except ValidationError:
+            except ValidationError as e:
                 error_messages = {
-                    'password_too_short': self.fields['password1'].error_messages['password_too_short'],
-                    'password_too_common': self.fields['password1'].error_messages['password_common'],
-                    'password_entirely_numeric': self.fields['password1'].error_messages['password_entirely_numeric'],
+                    'password_too_short': self.fields['new_password1'].error_messages['password_too_short'],
+                    'password_too_common': self.fields['new_password1'].error_messages['password_too_common'],
+                    'password_entirely_numeric': self.fields['new_password1'].error_messages['password_entirely_numeric'],
                 }
+                raise forms.ValidationError([error_messages[error.code] for error in e.error_list])
         return new_password1
 
 
