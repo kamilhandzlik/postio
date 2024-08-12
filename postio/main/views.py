@@ -27,6 +27,10 @@ class HomePageView(TemplateView):
         }
         return render(request, 'homepage.html', context)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['packages'] = UserPackage.objects.filter(owner=self.request.user)
+        return context
 
 class AboutUsView(TemplateView):
     template_name = 'main/about_us.html'
@@ -43,6 +47,7 @@ class CreatePackageView(CreateView):
 
     def form_valid(self, form):
         package = form.save(commit=False)
+        package.owner = self.request.user
         package.price = self.calculate_price(package.weight, package.width, package.height, package.lenght)
         package.paid = False
         package.status = 'ready_to_ship'

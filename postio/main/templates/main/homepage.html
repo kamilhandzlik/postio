@@ -67,7 +67,8 @@
 
     {% if user.is_authenticated %}
     <a href="{% url 'create_package' %}">NOWA PACZKA</a>
-<!--    <a href="{% url 'package_detail' package_id=1 %}">MOJA PACZKA</a>-->
+
+    <a href="{% url 'package_detail' package_id=1 %}">MOJA PACZKA</a>
 
     <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
         {% csrf_token %}
