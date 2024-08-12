@@ -42,8 +42,7 @@ Konto Użytkownika
     <div class="form-group">
         <label>Użytkownik</label>
         <br>
-        {{ user_form.username }}
-        <br>
+        <p><input type="text" name="username" value="{{ user.username }}"></p>
         {{ user_form.username.help_text|safe }}
         {{ user_form.username.errors }}
     </div>

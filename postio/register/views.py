@@ -1,12 +1,7 @@
 from .forms import RegistrationForm
-from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
-from django.core.mail import send_mail
-from django.conf import settings
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, DetailView, View
 from django.contrib.auth.decorators import login_required
@@ -17,6 +12,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from .forms import UserForm, PasswordChangeCustomForm
+from django.contrib.auth import login
 
 
 class RegistrationView(CreateView):
@@ -26,6 +22,8 @@ class RegistrationView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        user = form.save()
+        login(self.request, user)
         # user_email = form.cleaned_data.get('email')
         # send_mail(
         #     "Rejestracja w serwisei Post-Io.",
