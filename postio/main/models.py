@@ -14,6 +14,7 @@ class UserPackage(models.Model):
     package_id = models.AutoField(primary_key=True)  # adds id to package
     status = models.CharField(max_length=50)    # status of package (ready to ship, dispatched, awaiting currier, awaiting pickup, in warehouse, in transit, delivered)
     assigned_courrier = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='assigned_packages')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def update_status(self, new_status):
         self.status = new_status

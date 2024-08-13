@@ -94,14 +94,17 @@ class RegistrationForm(UserCreationForm):
             try:
                 validate_password(password1, self.instance)
             except ValidationError as e:
+                # Mapowanie komunikatów błędów na kody
                 error_messages = {
-                    'password_too_short': self.fields['password1'].error_messages['password_too_short'],
-                    'password_too_common': self.fields['password1'].error_messages['password_too_common'],
-                    'password_entirely_numeric': self.fields['password1'].error_messages['password_entirely_numeric'],
+                    'password_too_short': self.fields['password1'].error_messages.get('password_too_short',
+                                                                                      "Hasło jest zbyt krótkie."),
+                    'password_too_common': self.fields['password1'].error_messages.get('password_common',
+                                                                                       "Hasło jest zbyt powszechne."),
+                    'password_entirely_numeric': self.fields['password1'].error_messages.get(
+                        'password_entirely_numeric', "Hasło nie może być całkowicie numeryczne."),
                 }
-                raise forms.ValidationError([error_messages[error.code] for error in e.error_list])
+                raise forms.ValidationError([error_messages.get(error.code, str(error)) for error in e.error_list])
         return password1
-
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
